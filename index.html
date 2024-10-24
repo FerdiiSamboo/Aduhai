@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix Clone</title>
+  <!-- Include Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animasi untuk gambar saat di-hover */
+    .hover-scale {
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .hover-scale:hover {
+      transform: scale(1.1); /* Membuat gambar membesar */
+    }
+
+    /* Mengatur aspect ratio untuk video */
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      overflow: hidden;
+    }
+
+    .video-container video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body class="bg-black text-white">
+
+  <!-- Navbar -->
+  <header class="bg-black py-4">
+    <div class="container mx-auto flex justify-between items-center px-6">
+      <h1 class="text-3xl font-bold text-red-600">NETFLIX</h1>
+      <nav class="space-x-6">
+        <a href="#" class="text-lg text-white hover:text-gray-400">Home</a>
+        <a href="#" class="text-lg text-white hover:text-gray-400">TV Shows</a>
+        <a href="#" class="text-lg text-white hover:text-gray-400">Movies</a>
+        <a href="#" class="text-lg text-white hover:text-gray-400">My List</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section (Big Banner) -->
+  <section class="relative bg-gray-900 h-screen">
+    <div class="absolute inset-0 bg-gradient-to-t from-black opacity-75"></div>
+    <img src="images/poster1.jpg" alt="Banner" class="w-full h-full object-cover">
+    <div class="absolute bottom-12 left-8 space-y-4">
+      <h2 class="text-5xl font-bold">Felidia Putri Anggi</h2>
+      <p class="max-w-lg text-lg">A Person Who Were Born To Be Mine, It's like we were meant to be at the first place.</p>
+      <div class="space-x-4">
+        <button id="playButton" class="bg-white text-black px-6 py-3 font-bold hover:bg-gray-300">Play</button>
+        <button class="bg-gray-700 text-white px-6 py-3 font-bold hover:bg-gray-600" id="moreInfoButton">More Info</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Movies Section -->
+  <section class="py-12 container mx-auto">
+    <h3 class="text-3xl font-bold mb-6">Popular on Netflix</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <!-- Example Movie Cards -->
+      <div class="relative hover-scale">
+        <img src="images/poster2.jpg" alt="Movie" class="w-full h-auto rounded-md">
+      </div>
+      <div class="relative hover-scale">
+        <img src="images/poster3.jpg" alt="Movie" class="w-full h-auto rounded-md">
+      </div>
+      <div class="relative hover-scale">
+        <img src="images/poster4.jpg" alt="Movie" class="w-full h-auto rounded-md">
+      </div>
+      <div class="relative hover-scale">
+        <img src="images/poster5.jpg" alt="Movie" class="w-full h-auto rounded-md">
+      </div>
+      <div class="relative hover-scale">
+        <img src="images/poster6.jpg" alt="Movie" class="w-full h-auto rounded-md">
+      </div>
+      <div class="relative hover-scale">
+        <img src="images/poster7.jpg" alt="Movie" class="w-full h-auto rounded-md">
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal for More Info -->
+  <div id="moreInfoModal" class="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center hidden">
+    <div class="bg-gray-900 p-6 rounded-lg max-w-md w-full text-white">
+      <h3 class="text-2xl font-bold mb-4">More Information</h3>
+      <p>All i can say is that this person currently my most beloved one. And i love her so much</p>
+      <button id="closeModal" class="mt-6 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Close</button>
+    </div>
+  </div>
+
+  <!-- Modal for Play Video -->
+  <div id="playModal" class="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center hidden">
+    <div class="bg-gray-900 p-6 rounded-lg max-w-3xl w-full text-white">
+      <div class="video-container">
+        <video id="videoPlayer" controls class="rounded-md">
+          <source src="video/kocak.mp4" type="video/mp4"> <!-- Pastikan file video berada di folder yang benar -->
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <button id="closePlayModal" class="mt-6 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript to control the More Info modal behavior
+    const moreInfoButton = document.getElementById('moreInfoButton');
+    const moreInfoModal = document.getElementById('moreInfoModal');
+    const closeModal = document.getElementById('closeModal');
+
+    moreInfoButton.addEventListener('click', function() {
+      moreInfoModal.classList.remove('hidden');
+    });
+
+    closeModal.addEventListener('click', function() {
+      moreInfoModal.classList.add('hidden');
+    });
+
+    window.addEventListener('click', function(event) {
+      if (event.target == moreInfoModal) {
+        moreInfoModal.classList.add('hidden');
+      }
+    });
+
+    // JavaScript to control the Play modal and video behavior
+    const playButton = document.getElementById('playButton');
+    const playModal = document.getElementById('playModal');
+    const closePlayModal = document.getElementById('closePlayModal');
+    const videoPlayer = document.getElementById('videoPlayer');
+
+    playButton.addEventListener('click', function() {
+      playModal.classList.remove('hidden');
+      videoPlayer.play(); // Mulai memutar video
+    });
+
+    closePlayModal.addEventListener('click', function() {
+      playModal.classList.add('hidden');
+      videoPlayer.pause(); // Hentikan video ketika modal ditutup
+      videoPlayer.currentTime = 0; // Reset video ke awal
+    });
+
+    window.addEventListener('click', function(event) {
+      if (event.target == playModal) {
+        playModal.classList.add('hidden');
+        videoPlayer.pause(); // Hentikan video ketika mengklik di luar modal
+        videoPlayer.currentTime = 0; // Reset video ke awal
+      }
+    });
+  </script>
+
+</body>
+</html>
